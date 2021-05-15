@@ -3,11 +3,18 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 30
 
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${variant.applicationId}_${variant.flavorName}_${variant.buildType.name}_${project.android.defaultConfig.versionName}.apk"
+        }
+    }
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode project.hasProperty('SDK_VERSION_CODE') ? Integer.parseInt(VERSION_CODE) : 1
+        versionName project.hasProperty('SDK_VERSION_NAME') ? VERSION_NAME : '1.0.0'
+
     }
 
     buildTypes {
@@ -19,7 +26,7 @@ android {
 
 }
 
-apply from:'../maven_publish.gradle'
+apply from:'/maven_publish.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -1,0 +1,31 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from 'src/main/java'
+}
+
+afterEvaluate { project ->
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'io.rong.pushperm'//公司域名
+                artifactId = 'lvlibrary'//该aar包的名称
+                version = project.android.defaultConfig.versionName//版本号
+                from components.release
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'myRepo'
+                url = "http://localhost:8081/repository/maven-releases/"
+                credentials {
+                    username 'admin'
+                    password 'admin'
+                }
+            }
+        }
+    }
+}
