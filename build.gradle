@@ -31,5 +31,5 @@ apply from:'/maven_publish.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-
+    implementation 'com.example:lib:1.0.0@jar'
 }
